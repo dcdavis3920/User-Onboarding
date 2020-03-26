@@ -61,7 +61,7 @@ const Form = () => {
   const validateChange = e => {
     yup
       .reach(formSchema, e.target.name)
-      .validate(e.target.value)
+      .validate(e.target.value || e.target.checked)
       .then(valid => {
         setErrors({
           ...errors,
@@ -74,9 +74,6 @@ const Form = () => {
           [e.target.name]: err.errors[0]
         });
       });
-
-    validateChange(e);
-    setFormState(FormData);
   };
 
   const inputChange = e => {
@@ -86,6 +83,8 @@ const Form = () => {
       [e.target.name]:
         e.target.type === "checkbox" ? e.target.checked : e.target.value
     };
+    validateChange(e);
+    setFormState(newFormData);
   };
 
   return (
